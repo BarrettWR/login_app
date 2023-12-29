@@ -3,8 +3,11 @@ extends layout
 block content
   div(class="flex justify-center align-middle p-10")
     form(class="flex flex-col flex-grow max-w-2xl gap-5 p-20 bg-slate-500 shadow-sharp border-slate-100 border-2" method="post" action="/login")
-      if error
-        h2(class="text-red-100 text-xl")= error
+      if errors
+        for error in errors
+          h2(class="text-red-200 text-xl")=error.msg
+      if success
+        h2(class="text-green-200 text-xl")= success
       input(class="p-2" type="text" placeholder="Username" name="username" id="username" )
       input(class="p-2" type="text" placeholder="Password" name="password" id="password" )
       input(class="p-2" type="text" placeholder="Confirm Password" name="confirmPassword" id="confirmPassword" )
