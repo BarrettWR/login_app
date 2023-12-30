@@ -1,51 +1,35 @@
 var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose')
-const { check, validationResult } = require('express-validator');
 const asyncHandler = require("express-async-handler");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 const User = require('../models/user');
 
 exports.login_get = asyncHandler(async (req, res, next) => {
-    res.render("login");
+    res.render("login", {error: "", success: ""});
 });
 
-exports.login_post = [
-    check('username').trim().escape(),
-    check('password').trim().escape(),
-    check('confirmpassword').trim().escape(),
-    asyncHandler(async (req, res, next) => {
-      const errors = validationResult(req);
-      if (req.body.password != req.body.confirmPassword) {
-        errors.errors.push({
-          value: req.body.password,
-          msg: 'Passwords do not match',
-          param: 'password',
-          location: 'body'
-        });
+exports.login_post = function (req, res, next) {
+  passport.authenticate("local", function (err, user, info ) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.render("login", {error: info})
+    }
+
+    req.logIn(user, function(err) {
+      if (err) { 
+        return next(err); 
       }
-  
-      if (!errors.isEmpty()) {
-        await res.render('login', {
-          errors: errors.array()
-        });
-      }
-      else {
-        let currentUser = await User.findOne({userName: req.body.username });
-      
-        if (currentUser) {
-          if (currentUser.password == req.body.password) {
-            await res.render("messages");
-          }
-        }
-        else {
-          errors.errors.push({
-            value: req.body.username,
-            msg: 'User not found.',
-            param: 'username',
-            location: 'body'
-          });
-          await res.render("login", {errors: errors.array()});
-        }
-      }
-    })
-]
+      return res.redirect('messages');
+    });
+  })
+  (req, res, next)
+}
+
+  // Styling error messages in index
+  // fixing index in general
+  // make a logo
+  // do the content page

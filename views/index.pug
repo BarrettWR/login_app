@@ -1,16 +1,19 @@
 extends layout
 
 block content
-  div(class="flex justify-center align-middle p-10")
-    form(class="flex flex-col flex-grow max-w-2xl gap-5 p-20 bg-slate-500 shadow-sharp border-slate-100 border-2" action="/" method="POST")
-      if errors
+  div(class="flex flex-col justify-center align-middle items-center p-7")
+    form(class="flex flex-col flex-grow max-w-2xl gap-5 p-20 pt-5 bg-slate-500 shadow-sharp border-slate-100 border-2" action="/" method="POST")
+      h1(class="text-7xl text-white text-center p-5") members_only
+
+      input(class="p-4 shadow-sharp-sm" type="text" placeholder="Full Name" name="fullname" id="fullname")
+      input(class="p-4 shadow-sharp-sm" type="text" placeholder="Username" name="username" id="username" )
+      input(class="p-4 shadow-sharp-sm" type="text" placeholder="Password" name="password" id="password" )
+      input(class="p-4 shadow-sharp-sm" type="text" placeholder="Confirm Password" name="confirmpassword" id="confirmpassword" )
+      input(class="p-4 shadow-sharp-sm" type="text" placeholder="Email" name="email" id="email" )
+      input(class="p-4 shadow-sharp-sm bg-slate-700 text-white mt-5" type="submit" value="Sign Up")
+      p(class="text-xl text-white mt-5") Already have an account? 
+        a(class="text-blue-300" href="/login") Log In
+    if errors
+      div(class="mt-7 bg-red-700 p-3 gap-2 text-xl text-white min-h-[55px] min-w-[400px] max-w-2xl")
         for error in errors
-          h2(class="text-red-100 text-xl")=error.msg
-      input(class="p-2" type="text" placeholder="Full Name" name="fullname" id="fullname")
-      input(class="p-2" type="text" placeholder="Username" name="username" id="username" )
-      input(class="p-2" type="text" placeholder="Password" name="password" id="password" )
-      input(class="p-2" type="text" placeholder="Confirm Password" name="confirmpassword" id="confirmpassword" )
-      input(class="p-2" type="text" placeholder="Email" name="email" id="email" )
-      input(class="p-2 bg-slate-700 text-white" type="submit" value="Sign Up")
-      p Already have an account? 
-        a(href="/login") Log In
+            div(class="text-xl mt-1 align-middle")=error.msg

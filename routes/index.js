@@ -24,6 +24,3 @@ router.get("/messages", function(req, res, next) {
 
 module.exports = router;
 
-// Next: 
-// Check for repeated usernames on signup
-// Encrypt passwords

@@ -3,7 +3,9 @@ var router = express.Router();
 const mongoose = require('mongoose')
 const { check, validationResult } = require('express-validator');
 const asyncHandler = require("express-async-handler");
+const bcrypt = require("bcrypt");
 const User = require('../models/user');
+
 
 exports.signup_get = asyncHandler(async (req, res, next) => {
     res.render("index");
@@ -19,10 +21,14 @@ exports.signup_post = [
     const errors = validationResult(req);
     if (req.body.password != req.body.confirmpassword) {
       errors.errors.push({
-        value: req.body.password,
-        msg: 'Passwords do not match',
-        param: 'password',
-        location: 'body'
+        msg: 'Passwords do not match'
+      });
+    }
+
+    let repeatedUser = await User.findOne({ userName: req.body.username });
+    if (repeatedUser) {
+      errors.errors.push({
+        msg: 'Username already exists, please try another username.'
       });
     }
 
@@ -32,16 +38,26 @@ exports.signup_post = [
       });
     }
     else {
-      const user = new User({
-        fullName: req.body.fullname,
-        userName: req.body.username,
-        password: req.body.password,
-        email: req.body.email,
-        membership: false
-      })
+      try {
+        bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
+          if (err) { throw new Error};
 
-      await user.save()
-      res.render("login", {success: "User created! Try logging in."})
+          const user = new User({
+            fullName: req.body.fullname,
+            userName: req.body.username,
+            password: hashedPassword,
+            email: req.body.email,
+            membership: false
+          })
+          
+          await user.save()
+          
+          res.render("login", {error: "", success: "User created! Try logging in."})
+        })
+      }
+      catch (err) {
+        return next(err);
+      }
     }
   })
 ]
