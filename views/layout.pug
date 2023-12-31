@@ -3,5 +3,9 @@ html
   head
     title= title
     link(rel='stylesheet', href='../dist/output.css')
-  body(class="bg-slate-700")
+  body(class="bg-white")
+    nav(class="flex flex-row items-center p-5 gap-10 text-lg min-h-[40px] text-black")
+      a(class="mr-auto" href="/messages") members_only
+      a(href="/login") Log In
+      a(href="/") Sign Up  
     block content

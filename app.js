@@ -10,7 +10,6 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 const User = require('./models/user');
 
 var app = express();
@@ -70,7 +69,6 @@ app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 
 // catch 404 and forward to error handler
