@@ -4,8 +4,10 @@ html
     title= title
     link(rel='stylesheet', href='../dist/output.css')
   body(class="bg-white")
-    nav(class="flex flex-row items-center p-5 gap-10 text-lg min-h-[40px] text-black")
-      a(class="mr-auto" href="/messages") members_only
+    nav(class="flex flex-row items-center p-5 mb-7 gap-10 text-lg min-h-[40px] text-black")
+      a(class="mr-auto text-purple-700" href="/messages") members_only
       a(href="/login") Log In
-      a(href="/") Sign Up  
+      a(href="/") Sign Up
+      form(action="/logout" method="post")
+        input(type="submit" value="Log Out")
     block content

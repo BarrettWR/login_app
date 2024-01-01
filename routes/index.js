@@ -7,6 +7,8 @@ const User = require('../models/user');
 const Message = require("../models/message");
 const loginController = require("../controllers/loginController");
 const signupController = require("../controllers/signupController");
+const messagesController = require("../controllers/messagesController");
+
 
 /* GET home page. */
 router.get('/', signupController.signup_get);
@@ -17,21 +19,13 @@ router.get("/login", loginController.login_get)
 
 router.post("/login", loginController.login_post)
 
+router.get("/messages", messagesController.messages_get)
 
-router.get("/messages", async function(req, res, next) {
-  // const gamer = await User.findOne({userName: "gamer"});
-  // const message = new Message({
-  //   title: "hi",
-  //   message: "message message message",
-  //   authorID: gamer._id,
-  //   authorName: gamer.userName,
-  //   time: new Date()
-  // })
-  // await message.save();
-  let messages = await Message.find();
-  res.render("messages", {messages: messages});
-});
+router.post("/logout", messagesController.logout_post)
 
 
 module.exports = router;
 
+
+// sessions & making log in work
+// posting messages
