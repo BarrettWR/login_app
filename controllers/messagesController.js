@@ -10,29 +10,33 @@ const Message = require("../models/message");
 
 
 exports.messages_get = asyncHandler(async (req, res, next) => {
-    // const gamer = await User.findOne({userName: "gamer"});
-    // const message = new Message({
-    //   title: "sup",
-    //   message: "hello world",
-    //   authorID: gamer._id,
-    //   authorName: gamer.userName,
-    //   time: new Date()
-    // })
-    // await message.save();
-    let messages = await Message.find();
-    res.render("messages", {messages: messages, user:req.user});
+    if (!req.user) {
+        let error = {message: "Need to be logged in to see messages!"}
+        res.render("login", {error: error, success: ""})
+    }
+
+    else {
+        let messages = await Message.find();
+        res.render("messages", {messages: messages, user:req.user, error: ""});
+    }
 });
 
 
-
-  
-exports.logout_post = asyncHandler(async (req, res, next) => {
-    req.logout((err) => {
-        if (err) {
-          return next(err);
+exports.membership_post = [
+    check('secretcode').trim().escape(),
+    asyncHandler(async (req, res, next) => {
+        const errors = validationResult(req);
+        console.log(req.body.secretcode)
+        if (req.body.secretcode == "Toast") {
+            await User.updateOne({_id: req.user._id}, { membership: true});
+            res.redirect("/messages");
         }
-        res.redirect("/");
-      });
-    let messages = await Message.find();
-    res.render("messages", {messages: messages, user:req.user});
-});
+        else {
+            errors.errors.push({
+                message: "Incorrect Code!"
+            })
+            let messages = await Message.find();
+            res.render("messages", {messages: messages, user:req.user, errors: errors.array()});
+        }
+    })
+]

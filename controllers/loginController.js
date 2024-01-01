@@ -6,6 +6,7 @@ const { check, validationResult } = require('express-validator');
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require('../models/user');
+const Message = require("../models/message")
 
 exports.login_get = asyncHandler(async (req, res, next) => {
     res.render("login", {error: "", success: ""});
@@ -32,6 +33,16 @@ exports.login_post = [
     })
   (req, res, next)
 }]
+
+  
+exports.logout_post = asyncHandler(async (req, res, next) => {
+  req.logout((err) => {
+      if (err) {
+        return next(err);
+      }
+      res.redirect("/login");
+    });
+});
 
 
   // do the content page

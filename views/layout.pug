@@ -6,8 +6,8 @@ html
   body(class="bg-white")
     nav(class="flex flex-row items-center p-5 mb-7 gap-10 text-lg min-h-[40px] text-black")
       a(class="mr-auto text-purple-700" href="/messages") members_only
-      a(href="/login") Log In
-      a(href="/") Sign Up
+      a(class="border-2 border-black shadow-sharp-sm p-2 cursor-pointer bg-purple-300 hover:bg-purple-200 min-w-[100px] text-center" href="/login") Log In
+      a(class="border-2 border-black shadow-sharp-sm p-2 cursor-pointer bg-purple-300 hover:bg-purple-200 min-w-[100px] text-center" href="/") Sign Up
       form(action="/logout" method="post")
-        input(type="submit" value="Log Out")
+        input(class="border-2 border-black shadow-sharp-sm p-2 cursor-pointer bg-purple-300 hover:bg-purple-200 min-w-[100px] text-center" type="submit" value="Log Out")
     block content

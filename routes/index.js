@@ -21,11 +21,12 @@ router.post("/login", loginController.login_post)
 
 router.get("/messages", messagesController.messages_get)
 
-router.post("/logout", messagesController.logout_post)
+router.post("/membership", messagesController.membership_post)
+
+router.post("/logout", loginController.logout_post)
 
 
 module.exports = router;
 
 
-// sessions & making log in work
 // posting messages
