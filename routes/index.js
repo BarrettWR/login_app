@@ -21,6 +21,8 @@ router.post("/login", loginController.login_post)
 
 router.get("/messages", messagesController.messages_get)
 
+router.post("/messages", messagesController.messages_post)
+
 router.post("/membership", messagesController.membership_post)
 
 router.post("/logout", loginController.logout_post)
